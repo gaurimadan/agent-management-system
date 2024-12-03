@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { Navbar } from "./components/Navbar";
-import { SidebarContent, Sidebar } from "./components/Sidebar";
+import { Navbar } from "../components/Navbar";
+import { SidebarContent, Sidebar } from "../components/Sidebar";
 import { useParams } from "next/navigation";
 
 export default function AgentLayout({ children }: { children: React.ReactNode }) {

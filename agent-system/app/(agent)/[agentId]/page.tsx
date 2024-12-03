@@ -5,7 +5,7 @@ import { Input } from "../../components/ui/input";
 import { Table } from "../../components/ui/table";
 import { ScrollArea } from "../../components/ui/scrollarea";
 import ChatBox from "../../components/ui/chatbox";
-import RetellCallComponent from "./components/Retell";
+import RetellCallComponent from "../components/Retell";
 
 
 const agentsData = [

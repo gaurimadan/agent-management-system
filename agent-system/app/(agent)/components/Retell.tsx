@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { RetellWebClient } from "retell-client-js-sdk";
-import { Button } from "../../../components/ui/button";
+import { Button } from "../../components/ui/button";
 
 interface RegisterCallResponse {
   access_token: string;
@@ -15,7 +15,6 @@ const RetellCallComponent: React.FC<RetellCallProps> = ({ agentId }) => {
   const retellWebClient = new RetellWebClient();
 
   useEffect(() => {
-    
     retellWebClient.on("call_started", () => {
       console.log("Call started");
     });
@@ -39,13 +38,13 @@ const RetellCallComponent: React.FC<RetellCallProps> = ({ agentId }) => {
       setIsCalling(false);
     });
 
-    // Cleanup function to stop the call if component unmounts
+    // Cleanup function to stop the call if the component unmounts
     return () => {
       if (isCalling) {
         retellWebClient.stopCall();
       }
     };
-  }, []);
+  }, [isCalling]);
 
   const toggleConversation = async () => {
     if (isCalling) {
@@ -68,7 +67,7 @@ const RetellCallComponent: React.FC<RetellCallProps> = ({ agentId }) => {
 
   async function registerCall(agentId: string): Promise<RegisterCallResponse> {
     try {
-      const response = await fetch("http://localhost:8080/create-web-call", {
+      const response = await fetch("/api/create-web-call", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
