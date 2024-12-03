@@ -1,23 +1,22 @@
-// src/app/page.tsx
-
 "use client";
 import { useState } from "react";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Table } from "../../components/ui/table";
 import { ScrollArea } from "../../components/ui/scrollarea";
-import ChatBox from "../../components/ui/chatbox"; // ChatBox component created above
+import ChatBox from "../../components/ui/chatbox";
+import RetellCallComponent from "./components/Retell";
 
-// Mock data for agents (you can fetch this data from a server)
+
 const agentsData = [
-  { id: 1, name: "Marie", language: "English", gender: "Female" },
-  { id: 2, name: "Sarah", language: "English", gender: "Female" },
-  { id: 3, name: "Mark", language: "English", gender: "Male" },
-  { id: 4, name: "Sam", language: "English", gender: "Male" },
-  { id: 5, name: "Marie", language: "Spanish", gender: "Female" },
-  { id: 6, name: "Sarah", language: "Spanish", gender: "Female" },
-  { id: 7, name: "Mark", language: "Spanish", gender: "Male" },
-  { id: 8, name: "Sam", language: "Spanish", gender: "Male" },
+  { id: 1, name: "Marie", language: "English", gender: "Female", retellId: "agent_0dbd80a6069b38da5d757bd16d" },
+  { id: 2, name: "Sarah", language: "English", gender: "Female", retellId: "agent_some_other_id" },
+  { id: 3, name: "Mark", language: "English", gender: "Male", retellId: "agent_another_id" },
+  { id: 4, name: "Sam", language: "English", gender: "Male", retellId: "agent_yet_another_id" },
+  { id: 5, name: "Marie", language: "Spanish", gender: "Female", retellId: "agent_spanish_marie" },
+  { id: 6, name: "Sarah", language: "Spanish", gender: "Female", retellId: "agent_spanish_sarah" },
+  { id: 7, name: "Mark", language: "Spanish", gender: "Male", retellId: "agent_spanish_mark" },
+  { id: 8, name: "Sam", language: "Spanish", gender: "Male", retellId: "agent_spanish_sam" },
 ];
 
 const Page = () => {
@@ -26,21 +25,23 @@ const Page = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const agentsPerPage = 4;
 
-
   const indexOfLastAgent = currentPage * agentsPerPage;
   const indexOfFirstAgent = indexOfLastAgent - agentsPerPage;
   const currentAgents = agentsData.slice(indexOfFirstAgent, indexOfLastAgent);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
  
   const handleAgentNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedAgent(e.target.value);
   };
 
+  // Find the selected agent's Retell ID
+  const selectedAgentRetellId = agentsData.find(
+    (agent) => agent.name === selectedAgent
+  )?.retellId || "";
+
   return (
     <div className="flex h-screen">
-   
       <div className="w-1/4 bg-purple-200 text-black p-4">
         <h2 className="text-xl font-semibold mb-4">Select Voice</h2>
         <div>
@@ -80,7 +81,6 @@ const Page = () => {
       </div>
 
       <div className="w-3/4 p-8 flex flex-col gap-6">
-       
         <div className="flex justify-between items-center">
           <Input
             value={selectedAgent}
@@ -89,12 +89,12 @@ const Page = () => {
             placeholder="Agent Name"
           />
           <div className="flex items-center gap-4">
-            <Button variant="outline">Test Call</Button>
+            {/* Pass the selected agent's Retell ID to the RetellCallComponent */}
+            <RetellCallComponent agentId={selectedAgentRetellId} />
             <Button variant="outline">Test Chat</Button>
           </div>
         </div>
 
-       
         <div className="border rounded-md">
           <h3 className="text-lg font-semibold p-4">Agent List</h3>
           <ScrollArea className="max-h-60 p-4">
@@ -118,7 +118,6 @@ const Page = () => {
             </Table>
           </ScrollArea>
 
-         
           <div className="flex justify-center p-4">
             <Button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
               Prev
@@ -133,7 +132,6 @@ const Page = () => {
           </div>
         </div>
 
-    
         <div className="flex gap-6">
           <div className="flex-1">
             <h3 className="text-lg font-semibold mb-4">Prompt</h3>
