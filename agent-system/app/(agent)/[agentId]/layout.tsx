@@ -10,7 +10,7 @@ export default function AgentLayout({ children }: { children: React.ReactNode })
 
   const normalizedAgentId = Array.isArray(agentId) ? agentId[0] : agentId;
 
-  const selectedSection = normalizedAgentId || "default"; 
+  
 
   return (
     <div className="flex h-screen">
